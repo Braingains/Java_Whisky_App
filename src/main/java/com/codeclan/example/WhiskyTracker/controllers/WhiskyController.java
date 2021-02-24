@@ -20,6 +20,9 @@ public class WhiskyController {
     @Autowired
     WhiskyRepository whiskyRepository;
 
+    @Autowired
+    DistilleryRepository distilleryRepository;
+
     @GetMapping(value = "/whiskies")
     public ResponseEntity<List<Whisky>> findWhiskiesFilteredByYear(
             @RequestParam(name = "year", required = false) Integer year) {
@@ -29,4 +32,12 @@ public class WhiskyController {
         return new ResponseEntity<>(whiskyRepository.findAll(), HttpStatus.OK);
         //this is not running
     }
+
+    @GetMapping(value = "/whiskies/distillery")
+    public ResponseEntity<List<Whisky>> findWhiskiesFilteredByDistilleryAndYear(
+            @RequestParam(name = "distillery", required = false) Distillery distillery,
+            @RequestParam(name = "age", required = false) Integer age) {
+        return new ResponseEntity<>(whiskyRepository.findByDistilleryAndAge(distillery, age), HttpStatus.OK);
+    }
+
 }
